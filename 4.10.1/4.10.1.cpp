@@ -10,13 +10,11 @@
  int main()
  {
 	 cv::Mat out;
-	 cv::Mat lineMat;
-	 cv::Mat yy = imread("D:\\10.png", 1);
-	 if (yy.empty()) return -1;
-	 Canny(yy, lineMat, 50, 200, 3);
-	 cvtColor(lineMat, out, CV_GRAY2BGR);
+	 cv::Mat in = imread("D:\\10.png", 1);
+	 if (in.empty()) return -1;
+	 Canny(in, out, 50, 200, 3);
 	 std::vector<cv::Vec2f> lines;
-	 HoughLines(lineMat,lines,1,CV_PI/180,100,0,0);
+	 HoughLines(out,lines,1,CV_PI/180,100,0,0);
 	 std::vector<cv::Vec2f>::iterator it = lines.begin();
 	 for (; it != lines.end(); ++it) {
 		 float rho = (*it)[0], theta = (*it)[1];
@@ -29,9 +27,9 @@
 		 pi.y = saturate_cast<int>(y + 1000 * (a));
 		 p2.x = saturate_cast<int>(x - 1000 * (-b));
 		 p2.y = saturate_cast<int>(y - 1000 * (a));
-		 line(out, pi, p2, Scalar(0, 0, 255), 1, CV_AA);
+		 line(in, pi, p2, Scalar(0, 0, 255), 1, CV_AA);
 	 }
-	 imshow("output", out);
+	 imshow("output", in);
 	 waitKey(0);
 	 }
 
